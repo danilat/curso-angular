@@ -165,3 +165,7 @@ h1,h2,h3 {
 .col-sm-9.full {
     width: 100%;
 }
+
+.has-error .form-control-feedback{
+  top:0;
+}
