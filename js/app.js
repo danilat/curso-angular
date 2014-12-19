@@ -4,9 +4,20 @@
     angular.module('Bookmarks',[
         
     ])
-    .controller('MainController',function($scope){
+
+    .service('Category',function($http){
+        this.getAll = function(success,failure){
+            $http.get('http://bookmarks-angular.herokuapp.com/api/categories')
+                .success(success)
+                .error(failure);  
+        }
+    })
+
+    .controller('MainController',function($scope, Category){
         $scope.name = 'puto amo';
-        $scope.categories = ['HTML5','JavaScript','CSS','Games'];
+        Category.getAll(function(data){
+            $scope.categories = data.categories;
+        });
         $scope.bookmarks = [
             {id:1,title:'Quizzpot.com',url:'https://quizzpot.com',category:'JavaScript'},
             {id:2,title:'Html5 Game Devs',url:'https://html5gamedevs.com',category:'Games'},

@@ -29,8 +29,8 @@
                 <a href="#" class="pull-right"><i class="glyphicon glyphicon-folder-open"></i></a>
               </p>
               <ul class="nav">
-                  <li ng-repeat="category in categories" ng-class="{active: isCurrentCategory(category)}">
-                      <a href="#" ng-click="setCurrentCategory(category)"> <i class="glyphicon glyphicon-tags"></i> {{category}}</a>
+                  <li ng-repeat="category in categories" ng-class="{active: isCurrentCategory(category.name)}">
+                      <a href="#" ng-click="setCurrentCategory(category.name)"> <i class="glyphicon glyphicon-tags"></i> {{category.name}}</a>
                   </li>
               </ul>
         </div>
@@ -81,7 +81,7 @@
             <div class="input-group-addon">
               <i class="glyphicon glyphicon-folder-open"></i>
             </div>
-            <select ng-model="bookmark.category" ng-options="value for value in categories" id="category" class="form-control">
+            <select ng-model="bookmark.category" ng-options="cat.name for cat in categories" id="category" class="form-control">
             </select>
           </div>
         </div>
