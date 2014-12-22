@@ -14,7 +14,11 @@
     })
 
     .factory('Bookmark',function($resource){
-        return $resource('http://bookmarks-angular.herokuapp.com/api/bookmarks/:id');
+        return $resource('http://bookmarks-angular.herokuapp.com/api/bookmarks/:id',{
+            id: '@id'
+        },{
+            update: {method:'PUT'}
+        });
     })
 
     .controller('MainController',function($scope, Category, Bookmark){
@@ -24,14 +28,7 @@
             $scope.currentCategory = data.categories[0];
             $scope.bookmarks = Bookmark.query();
         });
-        $scope.bookmarks = [
-            {id:1,title:'Quizzpot.com',url:'https://quizzpot.com',category:'JavaScript'},
-            {id:2,title:'Html5 Game Devs',url:'https://html5gamedevs.com',category:'Games'},
-            {id:3,title:'CSS Tricks',url:'http://css-tricks.com',category:'CSS'},
-            {id:4,title:'Bootstrap',url:'http://getbootstrap.com',category:'CSS'},
-            {id:5,title:'Card',url:'http://jessepollak.github.io/card/',category:'JavaScript'}
-        ];
-
+        
         $scope.currentCategory = 'JavaScript';
 
         $scope.setCurrentCategory = function(category){
@@ -61,18 +58,22 @@
                     record.$save(function(){
                         $scope.bookmarks.push(record);
                     });
+                }else{
+                    bookmark.$update();
                 }
                 $('#bookmarkModal').modal('hide');
             }
         }
 
-        $scope.remove = function(id){
-            for(var i=0,len=$scope.bookmarks.length;i<len;i++){
-                if($scope.bookmarks[i].id === id){
-                    $scope.bookmarks.splice(i,1);
-                    break;
+        $scope.remove = function(bookmark){
+            bookmark.$remove(function(){
+                for(var i=0,len=$scope.bookmarks.length;i<len;i++){
+                    if($scope.bookmarks[i].id === bookmark.id){
+                        $scope.bookmarks.splice(i,1);
+                        break;
+                    }
                 }
-            }
+            });
         }
     });
 })();
