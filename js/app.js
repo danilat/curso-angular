@@ -21,6 +21,35 @@
         });
     })
 
+    .directive('bootstrapSelect',function(){
+        return {
+            require: 'ngModel',
+            link: function (scope, element, attrs, ngModel) {
+                $(element).selectpicker();
+                var collection = attrs.bootstrapSelect,
+                valueProperty = attrs.selectValue,
+                labelProperty = attrs.selectLabel,
+                model = attrs.ngModel;
+
+                scope.$watch(collection,function(data){
+                    if(data){
+                        $(element)
+                            .find('option')
+                            .remove();
+                        var html = [];
+                        $.each(data, function(index, object) {
+                            html.push('<option value="'+object[valueProperty]+'">');
+                            html.push(object[labelProperty]);
+                            html.push('</option>');
+                        });
+                        $(element).append(html.join(''));
+                        $(element).selectpicker('refresh');
+                    }
+                });
+            }
+        }
+    })
+
     .controller('MainController',function($scope, Category, Bookmark){
         $scope.name = 'puto amo';
         Category.getAll(function(data){

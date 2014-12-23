@@ -169,3 +169,7 @@ h1,h2,h3 {
 .has-error .form-control-feedback{
   top:0;
 }
+
+.category-cmb-field{
+  z-index:3;
+}
