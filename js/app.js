@@ -21,15 +21,35 @@
         });
     })
 
-    .directive('bootstrapSelect',function(){
+    .directive('bootstrapSelect',function($parse){
         return {
-            require: 'ngModel',
-            link: function (scope, element, attrs, ngModel) {
-                $(element).selectpicker();
+            link: function (scope, element, attrs) {
                 var collection = attrs.bootstrapSelect,
                 valueProperty = attrs.selectValue,
                 labelProperty = attrs.selectLabel,
-                model = attrs.ngModel;
+                model = attrs.selectModel,
+                getter = $parse(model),
+                setter = getter.assign;
+
+                $(element).selectpicker();
+
+                scope.$watch(model,function(data){
+                    if(angular.isObject(data)){
+                        $(element).selectpicker('val',data[valueProperty]);
+                    }
+                });
+
+                $(element).change(function(){
+                    var col = scope[collection],
+                        val = $(element).val();
+
+                    for(var i=0,len=col.length;i<len;i++){
+                        if(val == col[i][valueProperty]){
+                            setter(scope,col[i]);
+                            break;
+                        }
+                    }
+                });
 
                 scope.$watch(collection,function(data){
                     if(data){
