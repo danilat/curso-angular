@@ -42,14 +42,14 @@
               <div class="full col-sm-9">
                   <h2>
                     Category: {{currentCategory.name}}
-                    <a href="#" ng-click="showWindow()" class="btn btn-primary btn-xs pull-right"><i class="glyphicon glyphicon-plus-sign"></i> New bookmark</a>
+                    <a href="#" modal-window="bookmarkModal" ng-click="showWindow()" class="btn btn-primary btn-xs pull-right"><i class="glyphicon glyphicon-plus-sign"></i> New bookmark</a>
                   </h2>
                   <ul>
                     <li ng-repeat="bookmark in bookmarks | filter: {category: currentCategory.name}">
                         <p>
                             <a href="{{bookmark.url}}">{{bookmark.title}}</a> 
                             <i ng-click="remove(bookmark)" class="glyphicon glyphicon-trash"></i>
-                            <i ng-click="showWindow(bookmark)" class="glyphicon glyphicon-pencil"></i>
+                            <i ng-click="showWindow(bookmark)"  modal-window="bookmarkModal" class="glyphicon glyphicon-pencil"></i>
                             <small>{{bookmark.url}}</small>
                         </p>
                     </li>
@@ -114,7 +114,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button ng-click="save(bookmark)" type="button" class="btn btn-primary">Save changes</button>
+        <button ng-click="save(bookmark)" modal-window="bookmarkModal" modal-form="bookmarkForm" type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>

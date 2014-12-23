@@ -1237,6 +1237,19 @@
         });
     }])
 
+    .directive('modalWindow', function(){
+        return{
+            link: function(scope, element, attrs){
+                element.bind('click', function(){
+                    var form = scope[attrs.modalForm];
+                    if(!form || form.$valid){
+                        $('#'+attrs.modalWindow).modal('toggle');
+                    }
+                });
+            }
+        }
+    })
+
     .directive('bootstrapSelect',['$parse',function($parse){
         return {
             link: function (scope, element, attrs) {
@@ -1287,7 +1300,6 @@
     }])
 
     .controller('MainController',['$scope', 'Category', 'Bookmark' ,function($scope, Category, Bookmark){
-        $scope.name = 'puto amo';
         Category.getAll(function(data){
             $scope.categories = data.categories;
             $scope.currentCategory = data.categories[0];
@@ -1310,10 +1322,10 @@
 
             bookmark = bookmark || {category:$scope.currentCategory,url:''};
             $scope.bookmark = bookmark;
-            $('#bookmarkModal').modal('show');
         }
 
         $scope.save = function(bookmark){
+            alert('a')
             if($scope.bookmarkForm.$valid){
                 if(!bookmark.id){
                     var record = new Bookmark();
@@ -1326,7 +1338,6 @@
                 }else{
                     bookmark.$update();
                 }
-                $('#bookmarkModal').modal('hide');
             }
         }
 
